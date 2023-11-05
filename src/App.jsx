@@ -84,7 +84,7 @@ function App() {
               isOpen={deleteTask}
               message="Are you sure to delete all tasks"
               onCancel={() => setDeleteTask(false)}
-              onConfirm={() => deleteAll}
+              onConfirm={() => deleteAll()}
             />
           )}
         </div>
