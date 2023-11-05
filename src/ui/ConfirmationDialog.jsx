@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 function ConfirmationDialog({ isOpen, message, onConfirm, onCancel }) {
   return isOpen ? (
-    <div className="z-10 flex items-center justify-center">
+    <div className=" fixed inset-0 z-50 flex items-center justify-center">
       <div className=" rounded-lg  bg-slate-100 p-5 shadow-lg">
         <p className="mb-4">{message}</p>
         <div className="flex justify-end">

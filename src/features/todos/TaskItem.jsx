@@ -6,9 +6,9 @@ function TaskItem({ task, onToggle }) {
         type="checkbox"
         checked={task.isCompleted}
         onChange={() => onToggle(task.id)}
-        className="mr-2"
+        className="mr-4"
       />
-      <p className={task.isCompleted ? 'line-through' : ''}>{task.text}</p>
+      <p className={task.isCompleted ? ' line-through ' : ' '}>{task.text}</p>
     </div>
   );
 }
