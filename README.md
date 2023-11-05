@@ -1,5 +1,5 @@
 # React + Vite
 
 frontend hosted in netlify
-url:https://tubular-madeleine-eeabf0.netlify.app/
+url:https://friendly-platypus-3d2e4e.netlify.app/
 backend host in render
