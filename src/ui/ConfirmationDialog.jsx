@@ -2,7 +2,7 @@
 function ConfirmationDialog({ isOpen, message, onConfirm, onCancel }) {
   return isOpen ? (
     <div className="z-10 flex items-center justify-center">
-      <div className="w-1/2 rounded-lg  bg-slate-100 p-5 shadow-lg">
+      <div className=" rounded-lg  bg-slate-100 p-5 shadow-lg">
         <p className="mb-4">{message}</p>
         <div className="flex justify-end">
           <button
