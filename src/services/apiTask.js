@@ -21,7 +21,6 @@ export async function getTasks(isCompleted, searchItem) {
   return data?.tasks ?? [];
 }
 export async function deleteAllTasks() {
-  console.log('dlete all task');
   try {
     const res = await fetch(`${API_URL}`, {
       method: 'DELETE',
