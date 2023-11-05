@@ -25,3 +25,7 @@ Enable the button once the previous request has been completed, which can be det
 ### 2.1 Add lastModifiedDate to the Database
 
 Add a lastModifiedDate field to the database to assist in filtering the completed tasks based on their completion date. Add lastModifiedDate field in Schema, which should store the timestamp of the most recent modification.
+
+# 3. add loader
+
+I add a loader component when we fetch data from backend.
