@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:3000/api/v1/tasks';
+const API_URL = 'https://todo-list-ji3s.onrender.com/api/v1/tasks';
 
 export async function getTasks(isCompleted, searchItem) {
   let api = `${API_URL}?isCompleted=${isCompleted}`;
