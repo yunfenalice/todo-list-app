@@ -29,43 +29,43 @@ function App() {
       setDoneTasks(data);
     });
   }
-  function sortTaskByText(tasks) {
-    tasks.sort((task1, task2) => task1.text.localeCompare(task2.text));
-  }
-  function updateTaskLocally(task) {
-    //true it is changed from false to true
-    if (task.isCompleted) {
-      setDoneTasks((prev) => prev.push(task));
-      //false it is changed from true to false
-    } else {
-      const doneTasks = doneTasks.filter(prev.id != task.id);
-      setDoneTasks(sortTaskByText(doneTasks));
-      const todoTasks = todoTasks.push(task);
-      setTodoTasks(sortTaskByText(todoTasks));
-    }
-  }
+  // function sortTaskByText(tasks) {
+  //   tasks.sort((task1, task2) => task1.text.localeCompare(task2.text));
+  // }
+  // function updateTaskLocally(task) {
+  //   //true it is changed from false to true
+  //   if (task.isCompleted) {
+  //     setDoneTasks((prev) => prev.push(task));
+  //     //false it is changed from true to false
+  //   } else {
+  //     const doneTasks = doneTasks.filter((prev) => prev.id != task.id);
+  //     setDoneTasks(sortTaskByText(doneTasks));
+  //     const todoTasks = todoTasks.push(task);
+  //     setTodoTasks(sortTaskByText(todoTasks));
+  //   }
+  // }
 
-  function revertUpdateLocally(task) {
-    if (task.isCompleted) {
-      // If the task was marked as completed (true), revert it to not completed (false)
-      setDoneTasks((prevDoneTasks) => {
-        const updatedDoneTasks = prevDoneTasks.filter(
-          (doneTask) => doneTask.id !== task.id,
-        );
-        setTodoTasks((prevTodoTasks) => [...prevTodoTasks, task]);
-        return sortTaskByText(updatedDoneTasks);
-      });
-    } else {
-      // If the task was not completed (false), revert it to completed (true)
-      setTodoTasks((prevTodoTasks) => {
-        const updatedTodoTasks = prevTodoTasks.filter(
-          (todoTask) => todoTask.id !== task.id,
-        );
-        setDoneTasks((prevDoneTasks) => [...prevDoneTasks, task]);
-        return sortTaskByText(updatedTodoTasks);
-      });
-    }
-  }
+  // function revertUpdateLocally(task) {
+  //   if (task.isCompleted) {
+  //     // If the task was marked as completed (true), revert it to not completed (false)
+  //     setDoneTasks((prevDoneTasks) => {
+  //       const updatedDoneTasks = prevDoneTasks.filter(
+  //         (doneTask) => doneTask.id !== task.id,
+  //       );
+  //       setTodoTasks((prevTodoTasks) => [...prevTodoTasks, task]);
+  //       return sortTaskByText(updatedDoneTasks);
+  //     });
+  //   } else {
+  //     // If the task was not completed (false), revert it to completed (true)
+  //     setTodoTasks((prevTodoTasks) => {
+  //       const updatedTodoTasks = prevTodoTasks.filter(
+  //         (todoTask) => todoTask.id !== task.id,
+  //       );
+  //       setDoneTasks((prevDoneTasks) => [...prevDoneTasks, task]);
+  //       return sortTaskByText(updatedTodoTasks);
+  //     });
+  //   }
+  // }
   useEffect(() => {
     fetchTodoTask(searchTerm);
     fetchDoneTask(searchTerm);
@@ -83,12 +83,12 @@ function App() {
     };
     // Update the task's completion status on the backend
     try {
-      updateTaskLocally(task);
+      // updateTaskLocally(task);
       await updateTask(task._id, task);
       await Promise.all([fetchTodoTask(searchTerm), fetchDoneTask(searchTerm)]);
     } catch (e) {
       console.log('error', e);
-      revertUpdateLocally(task);
+      // revertUpdateLocally(task);
     }
   }
   async function deleteAll() {
