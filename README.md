@@ -2,7 +2,9 @@
 
 frontend hosted in netlify
 url:https://friendly-platypus-3d2e4e.netlify.app/
+
 backend host in render
+
 database: MongoDB, online database
 
 # 1. Enhance Todo List Functionality
