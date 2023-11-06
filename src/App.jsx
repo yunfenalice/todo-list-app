@@ -10,65 +10,50 @@ import Loader from './ui/Loader';
 
 function App() {
   const [todoTasks, setTodoTasks] = useState([]);
-  const [todoLoading, setTodoLoading] = useState(false);
-  const [doneLoading, setDoneLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [doneTasks, setDoneTasks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [deleteTask, setDeleteTask] = useState(false);
   function fetchTodoTask(searchTerm) {
-    setTodoLoading(true);
     getTasks(false, searchTerm).then((data) => {
-      setTodoLoading(false);
       setTodoTasks(data);
     });
   }
   function fetchDoneTask(searchTerm) {
-    setDoneLoading(true);
     getTasks(true, searchTerm).then((data) => {
-      setDoneLoading(false);
       setDoneTasks(data);
     });
   }
-  // function sortTaskByText(tasks) {
-  //   tasks.sort((task1, task2) => task1.text.localeCompare(task2.text));
-  // }
-  // function updateTaskLocally(task) {
-  //   //true it is changed from false to true
-  //   if (task.isCompleted) {
-  //     setDoneTasks((prev) => prev.push(task));
-  //     //false it is changed from true to false
-  //   } else {
-  //     const doneTasks = doneTasks.filter((prev) => prev.id != task.id);
-  //     setDoneTasks(sortTaskByText(doneTasks));
-  //     const todoTasks = todoTasks.push(task);
-  //     setTodoTasks(sortTaskByText(todoTasks));
-  //   }
-  // }
+  function sortTaskByText(tasks) {
+    return tasks.sort((task1, task2) => task1.text.localeCompare(task2.text));
+  }
+  function updateTaskLocally(task) {
+    //true it is changed from false to true
+    if (task.isCompleted) {
+      let newDoneTasks = [...doneTasks, task];
+      newDoneTasks = sortTaskByText(newDoneTasks);
+      setDoneTasks(newDoneTasks);
+      //false it is changed from true to false
+    } else {
+      const newDoneTasks = doneTasks.filter((item) => item._id != task._id);
+      newDoneTasks.sort((task1, task2) => task1.text.localeCompare(task2.text));
+      setDoneTasks(sortTaskByText(newDoneTasks));
+      let newTodoList = [...todoTasks, task];
+      newTodoList = sortTaskByText(newTodoList);
+      setTodoTasks(newTodoList);
+    }
+  }
 
-  // function revertUpdateLocally(task) {
-  //   if (task.isCompleted) {
-  //     // If the task was marked as completed (true), revert it to not completed (false)
-  //     setDoneTasks((prevDoneTasks) => {
-  //       const updatedDoneTasks = prevDoneTasks.filter(
-  //         (doneTask) => doneTask.id !== task.id,
-  //       );
-  //       setTodoTasks((prevTodoTasks) => [...prevTodoTasks, task]);
-  //       return sortTaskByText(updatedDoneTasks);
-  //     });
-  //   } else {
-  //     // If the task was not completed (false), revert it to completed (true)
-  //     setTodoTasks((prevTodoTasks) => {
-  //       const updatedTodoTasks = prevTodoTasks.filter(
-  //         (todoTask) => todoTask.id !== task.id,
-  //       );
-  //       setDoneTasks((prevDoneTasks) => [...prevDoneTasks, task]);
-  //       return sortTaskByText(updatedTodoTasks);
-  //     });
-  //   }
-  // }
   useEffect(() => {
-    fetchTodoTask(searchTerm);
-    fetchDoneTask(searchTerm);
+    setLoading(true);
+    try {
+      fetchTodoTask(searchTerm);
+      fetchDoneTask(searchTerm);
+    } catch (e) {
+      console.log('error');
+    } finally {
+      setLoading(false);
+    }
   }, [searchTerm]);
 
   async function handleToggle(taskId) {
@@ -83,12 +68,12 @@ function App() {
     };
     // Update the task's completion status on the backend
     try {
-      // updateTaskLocally(task);
+      updateTaskLocally(task);
       await updateTask(task._id, task);
       await Promise.all([fetchTodoTask(searchTerm), fetchDoneTask(searchTerm)]);
     } catch (e) {
       console.log('error', e);
-      // revertUpdateLocally(task);
+      updateTaskLocally({ ...task, isCompleted: task.isCompleted });
     }
   }
   async function deleteAll() {
@@ -137,20 +122,16 @@ function App() {
       </div>
 
       <div className="flex">
-        <div className="w-1/2 p-2">
-          {todoLoading ? (
+        <div className="relative w-1/2 p-2">
+          {loading ? (
             <Loader />
           ) : (
             <TodoList tasks={todoTasks} onToggle={handleToggle} />
           )}
         </div>
 
-        <div className="ml-8 w-1/2 p-2">
-          {doneLoading ? (
-            <Loader />
-          ) : (
-            <DoneList tasks={doneTasks} onToggle={handleToggle} />
-          )}
+        <div className="relative ml-8 w-1/2 p-2">
+          <DoneList tasks={doneTasks} onToggle={handleToggle} />
         </div>
       </div>
     </div>
